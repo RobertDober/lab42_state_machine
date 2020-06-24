@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    lab42_state_machine (0.1.0)
+    lab42_state_machine (0.3.0)
       forwarder2 (~> 0.2)
       lab42_match (~> 0.1.1)
 

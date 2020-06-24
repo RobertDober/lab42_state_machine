@@ -1,11 +1,11 @@
 
 # Lab42::StateMachine
 
-[![Build Status](https://travis-ci.org/RobertDober/lab42_stat_machine.svg?branch=master)](https://travis-ci.org/RobertDober/lab42_stat_machine)
-[![Gem Version](https://badge.fury.io/rb/lab42_stat_machine.svg)](http://badge.fury.io/rb/lab42_stat_machine)
-[![Code Climate](https://codeclimate.com/github/RobertDober/lab42_stat_machine/badges/gpa.svg)](https://codeclimate.com/github/RobertDober/lab42_stat_machine)
-[![Issue Count](https://codeclimate.com/github/RobertDober/lab42_stat_machine/badges/issue_count.svg)](https://codeclimate.com/github/RobertDober/lab42_stat_machine)
-[![Test Coverage](https://codeclimate.com/github/RobertDober/lab42_stat_machine/badges/coverage.svg)](https://codeclimate.com/github/RobertDober/lab42_stat_machine)
+[![Build Status](https://travis-ci.org/RobertDober/lab42_state_machine.svg?branch=master)](https://travis-ci.org/RobertDober/lab42_state_machine)
+[![Gem Version](https://badge.fury.io/rb/lab42_state_machine.svg)](http://badge.fury.io/rb/lab42_state_machine)
+[![Code Climate](https://codeclimate.com/github/RobertDober/lab42_state_machine/badges/gpa.svg)](https://codeclimate.com/github/RobertDober/lab42_state_machine)
+[![Issue Count](https://codeclimate.com/github/RobertDober/lab42_state_machine/badges/issue_count.svg)](https://codeclimate.com/github/RobertDober/lab42_state_machine)
+[![Test Coverage](https://codeclimate.com/github/RobertDober/lab42_state_machine/badges/coverage.svg)](https://codeclimate.com/github/RobertDober/lab42_state_machine)
 
 ## Usage
 
