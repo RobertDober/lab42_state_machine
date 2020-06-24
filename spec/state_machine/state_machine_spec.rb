@@ -2,7 +2,7 @@ RSpec.describe Lab42::StateMachine do
   describe "The Null Machine (copying)" do
     let(:null_machine) { described_class.new("The Null Machine") }
 
-    let(:nop) { -> (m, _) {m.to_s} }
+    let(:nop) { -> (s) {s} }
 
     before do
       null_machine.input = %w[alpha beta].lazy
@@ -31,7 +31,13 @@ RSpec.describe Lab42::StateMachine do
     end
 
     let(:renumber) do
+      -> (match, acc) do
+        match.string.h
+
+
+      end
     end
+
     before do
       iex_renumber.input = input.lazy
       iex_renumber.add(:start, %r{\A\s{4,}(?:iex|\.\.\.)\((\d+)\)>}, renumber)

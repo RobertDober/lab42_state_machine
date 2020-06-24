@@ -36,7 +36,7 @@ module Lab42
     def _init_vars
       @output      = []
       @current     = :start
-      @states      = Hash.new{ |h, k| h[k] = State.new(k, self) }
+      @states      = Hash.new{ |h, k| h[k] = State.new(k) }
     end
 
     def _current_state
