@@ -1,63 +1,74 @@
 
-# Lab42Console
+# Lab42::StateMachine
 
-[![Build Status](https://travis-ci.org/RobertDober/lab42_console.svg?branch=master)](https://travis-ci.org/RobertDober/lab42_console)
-[![Gem Version](https://badge.fury.io/rb/lab42_console.svg)](http://badge.fury.io/rb/lab42_console)
-[![Code Climate](https://codeclimate.com/github/RobertDober/lab42_console/badges/gpa.svg)](https://codeclimate.com/github/RobertDober/lab42_console)
-[![Issue Count](https://codeclimate.com/github/RobertDober/lab42_console/badges/issue_count.svg)](https://codeclimate.com/github/RobertDober/lab42_console)
-[![Test Coverage](https://codeclimate.com/github/RobertDober/lab42_console/badges/coverage.svg)](https://codeclimate.com/github/RobertDober/lab42_console)
+[![Build Status](https://travis-ci.org/RobertDober/lab42_stat_machine.svg?branch=master)](https://travis-ci.org/RobertDober/lab42_stat_machine)
+[![Gem Version](https://badge.fury.io/rb/lab42_stat_machine.svg)](http://badge.fury.io/rb/lab42_stat_machine)
+[![Code Climate](https://codeclimate.com/github/RobertDober/lab42_stat_machine/badges/gpa.svg)](https://codeclimate.com/github/RobertDober/lab42_stat_machine)
+[![Issue Count](https://codeclimate.com/github/RobertDober/lab42_stat_machine/badges/issue_count.svg)](https://codeclimate.com/github/RobertDober/lab42_stat_machine)
+[![Test Coverage](https://codeclimate.com/github/RobertDober/lab42_stat_machine/badges/coverage.svg)](https://codeclimate.com/github/RobertDober/lab42_stat_machine)
 
-Intrusive Ruby Tools for the Console Only
+## Usage
 
-## Applying operations to collections
+### The DSL
 
-By using `by` we create what one could call a _compaignon_ collection which can be transformed, at the end
-we can use finders and filters on these compagnon collection to access the original data
+Define a State Machine by giving it a name and defining states with their transitions in a block:
 
-Let us for example suppose that we have the following data
+Example: A Simple Definition
 
-```ruby :include
-    let(:data) {
-      (0..9).map{ |n|
-        OpenStruct.new(id: n, name: "name #{n}", content: (0..n).map{ |k| "data #{k}" })
-      }
-    }
-
-```
-Now we can filter the **original** data by selecting on some transformations on the compagnon collection, firstly we create a compagnon collection which
-contains only the names:
-
-```ruby :include
-  let(:compagnon){ data.by(:name) }
+```ruby :example 
+    Lab42::StateMachine.new "my machine" do
+      state :start do
+        trigger %r{\A[aeiou]} do |acc, _|
+           [nil, [acc.first+1, acc.last]]
+         end
+      end
+    end
 ```
 
-Now we can access the original for example as follows
+Be aware that a trigger block needs to accept at least one argument
 
-```ruby :example Find original by means of a compagnon
-    expect(compagnon.fnd("name 1")).to eq(data[1])
+Example: This raises an ArgumentError
+
+```ruby :example
+  machine = 
+    Lab42::StateMachine.new "my machine" do
+      state :start do
+        trigger %r{\A[aeiou]} do
+           [nil, nil]
+         end
+      end
+    end
+  expect{ machine.run(nil, ["abc"]) }.to raise_error(ArgumentError)
 ```
 
-We can chain `by` as much as we want
+Also there is one state you must not defined, the `:stop` state
 
-```ruby :include
-    let(:children_count) { data.by(:content).by(:size) }
+Example: Defining the `:stop` state
+
+```ruby :example
+   expect do
+     Lab42::StateMachine.new "booom, don't stop" do
+        state :stop do
+          trigger true, :start
+        end
+     end
+   end.to raise_error(FrozenError)
+    
 ```
 
-And select on children count
 
-```ruby :example Select by count of children
-    expect(children_count.sel(:>, 8)).to eq(data[8..9])
-```
+
+
 
 
 ## Author
 
-Copyright © 2019,20 Robert Dober
+Copyright © 2020 Robert Dober
 mailto: robert.dober@gmail.com
 
 # LICENSE
 
-Same as Elixir -- ;) --, which is Apache License v2.0. Please refer to [LICENSE](LICENSE) for details.
+Same as Elixir -- &#X1F609; --, which is Apache License v2.0. Please refer to [LICENSE](LICENSE) for details.
 
 SPDX-License-Identifier: Apache-2.0
 

@@ -5,36 +5,55 @@ module Lab42
       attr_reader :designation, :triggers
 
       def add(trigger, action, new_state)
-        trigger = Lab42::Match.new(trigger) unless Lab42::Match === trigger
+        trigger = Lab42::Match.new(trigger) if Regexp === trigger
         new_state ||= designation
         @triggers << [trigger, action, new_state]
       end
 
-      def transition(input, accumulator)
+      def transition(accumulator, input)
         triggers.each do |trigger, action, new_state|
-          match = trigger.match(input)
-          next unless match.success?
-          output, new_acc, new_state1 = _apply(match, accumulator, to: action) 
+          match = _match input, trigger
+          next unless match
+          output, new_acc, new_state1 = _apply(match, accumulator, input: input, to: action)
           output = output.string if Lab42::Match === output
-          return [output, new_acc || accumulator, new_state1 || new_state || designation] 
+          return [output, new_acc || accumulator, new_state1 || new_state || designation]
         end
-        [input, accumulator, new_state || designation]
+        [input, accumulator, designation]
       end
 
+      def _match(input, trigger)
+        case trigger
+        when Lab42::Match
+          m =trigger.match(input)
+          m.success? && m
+        when TrueClass
+          true
+        when FalseClass
+          raise StopIteration
+        when Symbol
+          input.send trigger
+        end
+      end
+
+      def freeze
+        super
+        @triggers.freeze
+      end
 
       private
 
-      def _apply(match, accumulator, to:)
-        case to.arity
-        when 1
-          to.(match)
-        when -1
-          to.(accumulator, *match.parts)
-        when 0
-          # TODO: Move this check to  #add ?
-          raise ArgumentError, "#{to} needs to accept at least one param, as it is a State's action"
+      def _apply(match, accumulator, input:, to:)
+        if to
+          case to.arity
+          when 1
+            to.(match)
+          when 2
+            to.(accumulator, match)
+          else
+            raise ArgumentError, "#{to} needs to accept one or two parameters , as it is a State's action"
+          end
         else
-          to.(accumulator, match)
+          input
         end
       end
 

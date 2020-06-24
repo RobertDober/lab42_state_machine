@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'pry-byebug', '~> 3.9'
   s.add_development_dependency 'pry-doc', '~> 1.1.0'
   s.add_development_dependency 'rspec', '~> 3.9'
-  s.add_development_dependency 'speculate_about', '~> 0.1'
+  s.add_development_dependency 'speculate_about', '~> 0.2'
   s.add_development_dependency 'simplecov', '~> 0.15'
 
   s.add_development_dependency 'codeclimate-test-reporter', '~> 1.0'
